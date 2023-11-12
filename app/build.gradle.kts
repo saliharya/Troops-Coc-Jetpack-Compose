@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
     kotlin("kapt")
 }
 
@@ -85,4 +86,7 @@ dependencies {
     //hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+    //raamcosta
+    implementation("io.github.raamcosta.compose-destinations:core:1.9.54")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.54")
 }
