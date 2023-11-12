@@ -1,10 +1,14 @@
 package com.arya.troopcoccompose.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+@Entity
 @Parcelize
 data class Troop(
+    @PrimaryKey
     val name: String?,
     val description: String?,
     val trivia: String?,

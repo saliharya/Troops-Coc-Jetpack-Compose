@@ -23,6 +23,12 @@ class TroopViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _isSearching = MutableLiveData<Boolean>()
+    val isSearching: LiveData<Boolean> get() = _isSearching
+
+    private val _isEmpty = MutableLiveData<Boolean>()
+    val isEmpty: LiveData<Boolean> get() = _isEmpty
+
     init {
         loadTroops()
     }

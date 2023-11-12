@@ -91,5 +91,8 @@ dependencies {
     ksp("io.github.raamcosta.compose-destinations:ksp:1.9.54")
     //accompanist-navigation-material
     implementation("com.google.accompanist:accompanist-navigation-material:0.23.0")
-
+    //room
+    val room_version = "2.6.0"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 }
