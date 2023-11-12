@@ -17,7 +17,7 @@
         android:theme="@style/Theme.TroopCOCCompose"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.ListTroopsActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_list_troops"
             android:theme="@style/Theme.TroopCOCCompose">

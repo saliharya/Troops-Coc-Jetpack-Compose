@@ -92,7 +92,7 @@ dependencies {
     //accompanist-navigation-material
     implementation("com.google.accompanist:accompanist-navigation-material:0.23.0")
     //room
-    val room_version = "2.6.0"
-    implementation("androidx.room:room-runtime:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    val roomVersion = "2.6.0"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
 }
