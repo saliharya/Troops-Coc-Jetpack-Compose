@@ -89,4 +89,7 @@ dependencies {
     //raamcosta
     implementation("io.github.raamcosta.compose-destinations:core:1.9.54")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.9.54")
+    //accompanist-navigation-material
+    implementation("com.google.accompanist:accompanist-navigation-material:0.23.0")
+
 }
