@@ -55,74 +55,64 @@ fun TroopListScreen(navigator: DestinationsNavigator) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    if (isSearching) {
-                        TextField(
-                            value = searchQuery,
-                            onValueChange = { newQuery ->
-                                searchQuery = newQuery
-                                troopViewModel.searchTroops(newQuery)
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(MaterialTheme.colorScheme.primary)
-                                .padding(8.dp),
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Search
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onSearch = {
-                                    troopViewModel.searchTroops(searchQuery)
-                                }
-                            )
+            TopAppBar(colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+            ), title = {
+                if (isSearching) {
+                    TextField(
+                        value = searchQuery,
+                        onValueChange = { newQuery ->
+                            searchQuery = newQuery
+                            troopViewModel.searchTroops(newQuery)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.primary)
+                            .padding(8.dp),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Search
+                        ),
+                        keyboardActions = KeyboardActions(onSearch = {
+                            troopViewModel.searchTroops(searchQuery)
+                        })
+                    )
+                } else {
+                    Text("Troops")
+                }
+            }, actions = {
+                if (isSearching) {
+                    SearchBar(query = searchQuery, onQueryChange = { newQuery ->
+                        searchQuery = newQuery
+                        troopViewModel.searchTroops(newQuery)
+                    }, onClearClick = {
+                        isSearching = false
+                        searchQuery = ""
+                        troopViewModel.searchTroops(searchQuery)
+                    })
+                } else {
+                    IconButton(
+                        onClick = {
+                            navigator.navigate(UserDetailScreenDestination)
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Profile",
                         )
-                    } else {
-                        Text("Troops")
                     }
-                },
-                actions = {
-                    if (isSearching) {
-                        SearchBar(
-                            query = searchQuery,
-                            onQueryChange = { newQuery ->
-                                searchQuery = newQuery
-                                troopViewModel.searchTroops(newQuery)
-                            },
-                            onClearClick = {
-                                isSearching = false
-                                searchQuery = ""
-                                troopViewModel.searchTroops(searchQuery)
-                            }
+                    IconButton(
+                        onClick = {
+                            isSearching = true
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
                         )
-                    } else {
-                        IconButton(
-                            onClick = {
-                                navigator.navigate(UserDetailScreenDestination)
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "Profile",
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                isSearching = true
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search",
-                            )
-                        }
                     }
                 }
-            )
+            })
         },
     ) { innerPadding ->
         Column(

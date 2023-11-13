@@ -44,8 +44,7 @@ fun UserDetailScreen(userViewModel: UserViewModel = hiltViewModel()) {
                 .verticalScroll(rememberScrollState())
         ) {
             Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxWidth()
+                contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
                     painter = painter,

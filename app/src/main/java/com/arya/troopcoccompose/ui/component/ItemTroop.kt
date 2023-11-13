@@ -25,13 +25,11 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun ItemTroop(troop: Troop, navigator: DestinationsNavigator) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(150.dp)
-            .padding(8.dp)
-            .clickable { navigator.navigate(TroopDetailScreenDestination(troop)) }
-    ) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .height(150.dp)
+        .padding(8.dp)
+        .clickable { navigator.navigate(TroopDetailScreenDestination(troop)) }) {
         Row(
             modifier = Modifier
                 .fillMaxSize()

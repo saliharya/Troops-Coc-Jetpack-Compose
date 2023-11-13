@@ -8,8 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class Troop(
-    @PrimaryKey
-    val name: String?,
+    @PrimaryKey val name: String?,
     val description: String?,
     val trivia: String?,
     val imgUrl: String?,
