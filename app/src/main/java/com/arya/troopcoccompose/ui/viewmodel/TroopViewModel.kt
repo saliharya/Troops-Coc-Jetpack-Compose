@@ -43,7 +43,7 @@ class TroopViewModel @Inject constructor(
                 }
                 _troops.value = troopsList
             } catch (e: Exception) {
-                // Handle error loading troops
+                e.stackTrace
             } finally {
                 _isLoading.value = false
             }
@@ -60,7 +60,7 @@ class TroopViewModel @Inject constructor(
                 }
                 _troops.value = searchResult
             } catch (e: Exception) {
-                // Handle error searching troops
+                e.stackTrace
             } finally {
                 _isLoading.value = false
             }

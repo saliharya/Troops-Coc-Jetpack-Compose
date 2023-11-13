@@ -137,7 +137,6 @@ fun TroopListScreen(navigator: DestinationsNavigator) {
                 )
             } else {
                 if (isEmpty) {
-                    // Center the "No Troops Found" text
                     Text(
                         "No Troops Found",
                         modifier = Modifier
@@ -146,7 +145,6 @@ fun TroopListScreen(navigator: DestinationsNavigator) {
                         textAlign = TextAlign.Center
                     )
                 } else {
-                    // Show the list of troops
                     LazyColumn {
                         items(allTroops) { troop ->
                             ItemTroop(troop, navigator)
