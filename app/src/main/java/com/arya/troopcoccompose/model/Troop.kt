@@ -8,14 +8,13 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class Troop(
-    @PrimaryKey val name: String?,
+    @PrimaryKey val name: String,
     val description: String?,
     val trivia: String?,
     val imgUrl: String?,
-    val url: String?
-) : Parcelable {
-    val shareableText get() = "$name\n$url"
-}
+    val url: String?,
+    var isFavorite: Boolean = false
+) : Parcelable
 
 val troops = arrayListOf(
     Troop(

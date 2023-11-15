@@ -14,20 +14,27 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.arya.troopcoccompose.model.Troop
 import com.arya.troopcoccompose.ui.component.FavoriteButton
+import com.arya.troopcoccompose.ui.viewmodel.TroopViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
 @Composable
-fun TroopDetailScreen(troop: Troop) {
+fun TroopDetailScreen(
+    troop: Troop
+) {
     val painter = rememberAsyncImagePainter(model = troop.imgUrl)
+    val troopViewModel: TroopViewModel = hiltViewModel()
 
     Column(
         modifier = Modifier
@@ -51,8 +58,7 @@ fun TroopDetailScreen(troop: Troop) {
         }
         Spacer(Modifier.height(24.dp))
         Text(
-            text = troop.name ?: "",
-            style = MaterialTheme.typography.headlineMedium
+            text = troop.name, style = MaterialTheme.typography.headlineMedium
         )
         Spacer(Modifier.height(12.dp))
         Text(
@@ -68,8 +74,14 @@ fun TroopDetailScreen(troop: Troop) {
         )
     }
 
+    val isFavorite = remember { mutableStateOf(troop.isFavorite) }
+
     FavoriteButton(
-        onClick = { /* Handle favorite button click */ },
+        isFavorite = isFavorite.value,
+        onClick = {
+            troopViewModel.toggleFavoriteUser()
+            isFavorite.value = !isFavorite.value
+        },
         modifier = Modifier
             .padding(24.dp)
             .fillMaxSize()

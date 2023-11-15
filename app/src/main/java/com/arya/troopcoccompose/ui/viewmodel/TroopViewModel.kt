@@ -14,17 +14,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TroopViewModel @Inject constructor(
-    private val troopRepository: TroopRepository
+    private val troopRepository: TroopRepository,
 ) : ViewModel() {
 
     private val _troops = MutableLiveData<List<Troop>>()
     val troops: LiveData<List<Troop>> get() = _troops
 
+    private val _troop = MutableLiveData<Troop>()
+    val troop: LiveData<Troop> get() = _troop
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _isSearching = MutableLiveData<Boolean>()
-    val isSearching: LiveData<Boolean> get() = _isSearching
 
     private val _isEmpty = MutableLiveData<Boolean>()
     val isEmpty: LiveData<Boolean> get() = _isEmpty
@@ -63,6 +64,19 @@ class TroopViewModel @Inject constructor(
                 e.stackTrace
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    fun toggleFavoriteUser() {
+        viewModelScope.launch {
+            troop.value?.let { troop ->
+                if (troop.isFavorite) troopRepository.deleteFromFavorite(troop)
+                else troopRepository.insertToFavorite(troop)
+
+                troop.isFavorite = !troop.isFavorite
+
+                _troop.postValue(troop)
             }
         }
     }
