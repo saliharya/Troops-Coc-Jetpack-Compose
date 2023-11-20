@@ -14,7 +14,7 @@ class TroopRepository @Inject constructor(private val mFavoriteTroopDao: Favorit
 
     fun searchTroops(query: String): List<Troop> {
         return troops.filter {
-            it.name.contains(query, ignoreCase = true)
+            it.name?.contains(query, ignoreCase = true) == true
         }
     }
 
@@ -26,6 +26,10 @@ class TroopRepository @Inject constructor(private val mFavoriteTroopDao: Favorit
 
     suspend fun deleteFromFavorite(troop: Troop) {
         mFavoriteTroopDao.deleteFavoriteTroop(troop)
+    }
+
+    suspend fun checkIsFavoriteById(id: String): Boolean {
+        return mFavoriteTroopDao.getTroopById(id).any()
     }
 }
 

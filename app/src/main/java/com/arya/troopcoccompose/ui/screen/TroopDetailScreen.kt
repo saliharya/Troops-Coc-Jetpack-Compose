@@ -14,8 +14,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -31,10 +32,17 @@ import com.ramcosta.composedestinations.annotation.Destination
 @Destination
 @Composable
 fun TroopDetailScreen(
-    troop: Troop
+    initialTroop: Troop
 ) {
-    val painter = rememberAsyncImagePainter(model = troop.imgUrl)
     val troopViewModel: TroopViewModel = hiltViewModel()
+    val troop by troopViewModel.troop.observeAsState()
+    val isFavorite by troopViewModel.isFavorite.observeAsState()
+    val painter = rememberAsyncImagePainter(model = troop?.imgUrl)
+
+    LaunchedEffect(true) {
+        troopViewModel.setInitialTroop(initialTroop)
+    }
+
 
     Column(
         modifier = Modifier
@@ -51,40 +59,39 @@ fun TroopDetailScreen(
         ) {
             Image(
                 painter = painter,
-                contentDescription = troop.name,
+                contentDescription = troop?.name,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.fillMaxSize()
             )
         }
         Spacer(Modifier.height(24.dp))
         Text(
-            text = troop.name, style = MaterialTheme.typography.headlineMedium
+            text = troop?.name.orEmpty(), style = MaterialTheme.typography.headlineMedium
         )
         Spacer(Modifier.height(12.dp))
         Text(
-            text = troop.description ?: "",
+            text = troop?.description ?: "",
             textAlign = TextAlign.Justify,
             style = MaterialTheme.typography.bodyMedium
         )
         Spacer(Modifier.height(12.dp))
         Text(
-            text = troop.trivia ?: "",
+            text = troop?.trivia ?: "",
             textAlign = TextAlign.Justify,
             style = MaterialTheme.typography.bodySmall
         )
     }
 
-    val isFavorite = remember { mutableStateOf(troop.isFavorite) }
-
-    FavoriteButton(
-        isFavorite = isFavorite.value,
-        onClick = {
-            troopViewModel.toggleFavoriteUser()
-            isFavorite.value = !isFavorite.value
-        },
-        modifier = Modifier
-            .padding(24.dp)
-            .fillMaxSize()
-            .wrapContentSize(align = Alignment.BottomEnd)
-    )
+    isFavorite?.let {
+        FavoriteButton(
+            isFavorite = it,
+            onClick = {
+                troopViewModel.toggleFavoriteUser()
+            },
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxSize()
+                .wrapContentSize(align = Alignment.BottomEnd)
+        )
+    }
 }

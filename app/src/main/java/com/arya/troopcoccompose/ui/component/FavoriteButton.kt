@@ -20,9 +20,7 @@ fun FavoriteButton(
     modifier: Modifier = Modifier
 ) {
     FloatingActionButton(
-        onClick = {
-            onClick()
-        },
+        onClick = onClick,
         modifier = modifier
             .padding(16.dp)
             .fillMaxSize()

@@ -30,6 +30,9 @@ class TroopViewModel @Inject constructor(
     private val _isEmpty = MutableLiveData<Boolean>()
     val isEmpty: LiveData<Boolean> get() = _isEmpty
 
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> get() = _isFavorite
+
     init {
         loadTroops()
     }
@@ -68,15 +71,22 @@ class TroopViewModel @Inject constructor(
         }
     }
 
+    fun setInitialTroop(troop: Troop) {
+        viewModelScope.launch {
+            val isFavorite = troopRepository.checkIsFavoriteById(troop.id)
+            _isFavorite.postValue(isFavorite)
+            _troop.postValue(troop)
+        }
+    }
+
     fun toggleFavoriteUser() {
         viewModelScope.launch {
             troop.value?.let { troop ->
-                if (troop.isFavorite) troopRepository.deleteFromFavorite(troop)
+                val isFavorite = isFavorite.value == true
+                if (isFavorite) troopRepository.deleteFromFavorite(troop)
                 else troopRepository.insertToFavorite(troop)
 
-                troop.isFavorite = !troop.isFavorite
-
-                _troop.postValue(troop)
+                _isFavorite.postValue(!isFavorite)
             }
         }
     }

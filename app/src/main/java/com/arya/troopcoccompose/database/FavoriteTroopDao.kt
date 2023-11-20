@@ -17,4 +17,7 @@ interface FavoriteTroopDao {
 
     @Delete
     suspend fun deleteFavoriteTroop(troop: Troop)
+
+    @Query("SELECT * FROM Troop WHERE id =:id")
+    suspend fun getTroopById(id: String): List<Troop>
 }
