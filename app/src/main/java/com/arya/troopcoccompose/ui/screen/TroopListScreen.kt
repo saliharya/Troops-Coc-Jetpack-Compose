@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -24,6 +25,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -36,8 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arya.troopcoccompose.ui.component.ItemTroop
 import com.arya.troopcoccompose.ui.component.SearchBar
+import com.arya.troopcoccompose.ui.screen.destinations.FavoriteTroopListScreenDestination
 import com.arya.troopcoccompose.ui.screen.destinations.UserDetailScreenDestination
-import com.arya.troopcoccompose.ui.viewmodel.TroopViewModel
+import com.arya.troopcoccompose.ui.viewmodel.TroopListViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -45,13 +48,17 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination(start = true)
 @Composable
 fun TroopListScreen(navigator: DestinationsNavigator) {
-    val troopViewModel: TroopViewModel = hiltViewModel()
+    val troopViewModel: TroopListViewModel = hiltViewModel()
     val allTroops by troopViewModel.troops.observeAsState(emptyList())
     val isLoading by troopViewModel.isLoading.observeAsState(false)
     val isEmpty by troopViewModel.isEmpty.observeAsState(false)
 
     var searchQuery by remember { mutableStateOf("") }
     var isSearching by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        troopViewModel.loadTroops()
+    }
 
     Scaffold(
         topBar = {
@@ -99,6 +106,16 @@ fun TroopListScreen(navigator: DestinationsNavigator) {
                         Icon(
                             imageVector = Icons.Default.Person,
                             contentDescription = "Profile",
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            navigator.navigate(FavoriteTroopListScreenDestination)
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favorite",
                         )
                     }
                     IconButton(

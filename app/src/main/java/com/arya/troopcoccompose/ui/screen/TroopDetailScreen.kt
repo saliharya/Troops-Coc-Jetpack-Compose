@@ -26,7 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.arya.troopcoccompose.model.Troop
 import com.arya.troopcoccompose.ui.component.FavoriteButton
-import com.arya.troopcoccompose.ui.viewmodel.TroopViewModel
+import com.arya.troopcoccompose.ui.viewmodel.TroopDetailViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
@@ -34,7 +34,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 fun TroopDetailScreen(
     initialTroop: Troop
 ) {
-    val troopViewModel: TroopViewModel = hiltViewModel()
+    val troopViewModel: TroopDetailViewModel = hiltViewModel()
     val troop by troopViewModel.troop.observeAsState()
     val isFavorite by troopViewModel.isFavorite.observeAsState()
     val painter = rememberAsyncImagePainter(model = troop?.imgUrl)

@@ -13,31 +13,23 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class TroopViewModel @Inject constructor(
+class TroopListViewModel @Inject constructor(
     private val troopRepository: TroopRepository,
 ) : ViewModel() {
 
     private val _troops = MutableLiveData<List<Troop>>()
     val troops: LiveData<List<Troop>> get() = _troops
 
-    private val _troop = MutableLiveData<Troop>()
-    val troop: LiveData<Troop> get() = _troop
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
-
 
     private val _isEmpty = MutableLiveData<Boolean>()
     val isEmpty: LiveData<Boolean> get() = _isEmpty
 
-    private val _isFavorite = MutableLiveData<Boolean>()
-    val isFavorite: LiveData<Boolean> get() = _isFavorite
+    private val _favoriteTroops = MutableLiveData<List<Troop>>()
+    val favoriteTroops: LiveData<List<Troop>> get() = _favoriteTroops
 
-    init {
-        loadTroops()
-    }
-
-    private fun loadTroops() {
+    fun loadTroops() {
         _isLoading.value = true
 
         viewModelScope.launch {
@@ -46,8 +38,9 @@ class TroopViewModel @Inject constructor(
                     troopRepository.getTroops()
                 }
                 _troops.value = troopsList
+                _isEmpty.value = troopsList.isEmpty()
             } catch (e: Exception) {
-                e.stackTrace
+                e.printStackTrace()
             } finally {
                 _isLoading.value = false
             }
@@ -63,30 +56,29 @@ class TroopViewModel @Inject constructor(
                     troopRepository.searchTroops(query)
                 }
                 _troops.value = searchResult
+                _isEmpty.value = searchResult.isEmpty()
             } catch (e: Exception) {
-                e.stackTrace
+                e.printStackTrace()
             } finally {
                 _isLoading.value = false
             }
         }
     }
 
-    fun setInitialTroop(troop: Troop) {
-        viewModelScope.launch {
-            val isFavorite = troopRepository.checkIsFavoriteById(troop.id)
-            _isFavorite.postValue(isFavorite)
-            _troop.postValue(troop)
-        }
-    }
+    fun loadFavoriteTroops() {
+        _isLoading.value = true
 
-    fun toggleFavoriteUser() {
         viewModelScope.launch {
-            troop.value?.let { troop ->
-                val isFavorite = isFavorite.value == true
-                if (isFavorite) troopRepository.deleteFromFavorite(troop)
-                else troopRepository.insertToFavorite(troop)
-
-                _isFavorite.postValue(!isFavorite)
+            try {
+                val favoriteTroopsList = withContext(Dispatchers.IO) {
+                    troopRepository.getFavoriteTroops()
+                }
+                _favoriteTroops.value = favoriteTroopsList
+                _isEmpty.value = favoriteTroopsList.isEmpty()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
             }
         }
     }
