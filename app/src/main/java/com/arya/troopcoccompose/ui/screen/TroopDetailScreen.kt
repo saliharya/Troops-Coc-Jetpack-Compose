@@ -43,7 +43,6 @@ fun TroopDetailScreen(
         troopViewModel.setInitialTroop(initialTroop)
     }
 
-
     Column(
         modifier = Modifier
             .padding(start = 12.dp, end = 12.dp)

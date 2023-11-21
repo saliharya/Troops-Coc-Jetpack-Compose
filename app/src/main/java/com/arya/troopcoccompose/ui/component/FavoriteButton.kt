@@ -15,9 +15,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun FavoriteButton(
-    isFavorite: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    isFavorite: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier
 ) {
     FloatingActionButton(
         onClick = onClick,

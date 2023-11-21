@@ -15,6 +15,11 @@ class UserViewModel @Inject constructor(private val userRepository: UserReposito
 
     private val _userData = MutableLiveData<User>()
     val userData: LiveData<User> get() = _userData
+
+    init {
+        loadUserData()
+    }
+
     fun loadUserData() {
         viewModelScope.launch {
             val user = userRepository.getUserData()

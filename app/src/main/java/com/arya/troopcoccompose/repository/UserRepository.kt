@@ -9,7 +9,7 @@ class UserRepository @Inject constructor() {
     fun getUserData(): User {
         return User(
             "Salih Arya Gumilang",
-            "https://upload.wikimedia.org/wikipedia/en/thumb/9/94/NarutoCoverTankobon1.jpg/220px-NarutoCoverTankobon1.jpg",
+            "https://media.licdn.com/dms/image/D5603AQFheIONMPeQdg/profile-displayphoto-shrink_800_800/0/1693733968053?e=1706140800&v=beta&t=rOUKhOzFD_HNdRL1GFGVrtNXez6F2Ip8hnH_cdM93ps",
             "saliharyazinc@gmail.com"
         )
     }
